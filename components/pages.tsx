@@ -3463,36 +3463,6 @@ export function HomePage() {
                     <span>Contact Us</span>{" "}
                   </a>{" "}
                 </div>{" "}
-                <div className="grid grid-cols-3 gap-space-lg pt-space-md max-w-lg w-full">
-                  {" "}
-                  <div className="space-y-0.5">
-                    {" "}
-                    <div className="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">
-                      {"99.98%"}
-                    </div>{" "}
-                    <div className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">
-                      System Uptime SLA
-                    </div>{" "}
-                  </div>{" "}
-                  <div className="space-y-0.5">
-                    {" "}
-                    <div className="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">
-                      4.2x
-                    </div>{" "}
-                    <div className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">
-                      Client Velocity
-                    </div>{" "}
-                  </div>{" "}
-                  <div className="space-y-0.5">
-                    {" "}
-                    <div className="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">
-                      &lt;85ms
-                    </div>{" "}
-                    <div className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">
-                      P95 Micro-Latency
-                    </div>{" "}
-                  </div>{" "}
-                </div>{" "}
               </div>{" "}
               <div className="lg:col-span-5 relative mt-8 lg:mt-0 flex justify-center">
                 <img
