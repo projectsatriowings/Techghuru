@@ -3516,97 +3516,22 @@ export function HomePage() {
             <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
               {" "}
               <div className="flex items-center gap-14 shrink-0 animate-[marquee_28s_linear_infinite] whitespace-nowrap min-w-full justify-around">
-                {" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    cloud_sync
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    CloudScale
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    hub
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    NexaFlow
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    rocket_launch
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    Apex Dynamics
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    cable
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    HyperLink
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    memory
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    QuantumBit
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    bolt
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    Veloce
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    cloud_sync
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    CloudScale
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    hub
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    NexaFlow
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    rocket_launch
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    Apex Dynamics
-                  </span>{" "}
-                </div>{" "}
-                <div className="flex items-center gap-2.5 opacity-80 hover:opacity-100 transition-opacity">
-                  {" "}
-                  <span className="material-symbols-outlined text-primary text-headline-sm">
-                    cable
-                  </span>{" "}
-                  <span className="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">
-                    HyperLink
-                  </span>{" "}
-                </div>{" "}
+                {[
+                  "blessence.png","brand03.png","brand1.png","dhara.jpeg","divine.jpeg",
+                  "jaighurudevalogo.png","jaighurudevalogo.webp","joysontrust.png","mcars.png","meera filngs.png",
+                  "miniso poster logo.png","mithra.jpeg","mk.png","newbrand3.png","NEWS GHURU LOGO PNG.png",
+                  "PRS LOGO.png","sai.jpeg","school.png","sissers.png","sivajisons.png",
+                  "uelogo.png","vrtech.png",
+                  "blessence.png","brand03.png","brand1.png","dhara.jpeg","divine.jpeg",
+                  "jaighurudevalogo.png","jaighurudevalogo.webp","joysontrust.png","mcars.png","meera filngs.png",
+                  "miniso poster logo.png","mithra.jpeg","mk.png","newbrand3.png","NEWS GHURU LOGO PNG.png",
+                  "PRS LOGO.png","sai.jpeg","school.png","sissers.png","sivajisons.png",
+                  "uelogo.png","vrtech.png"
+                ].map((brand, i) => (
+                  <div key={i} className="flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity h-12 shrink-0 grayscale hover:grayscale-0">
+                    <img src={`/brands/${brand}`} alt="Partner Brand" className="h-full w-auto object-contain" />
+                  </div>
+                ))}
               </div>{" "}
             </div>{" "}
           </div>{" "}
