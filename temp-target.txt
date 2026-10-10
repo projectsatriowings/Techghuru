@@ -1,0 +1,74 @@
+﻿export function SiteShell({ children }: { children: ReactNode }) {
+ const path = usePathname(); const [open, setOpen] = useState(false);
+ const [scrolled, setScrolled] = useState(false);
+ useEffect(() => {
+   const handleScroll = () => setScrolled(window.scrollY > 80);
+   window.addEventListener('scroll', handleScroll);
+   return () => window.removeEventListener('scroll', handleScroll);
+ }, []);
+  return <><header className={`fixed top-0 left-0 right-0 z-50 ${scrolled ? 'bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(73,32,11,0.05)]' : 'bg-transparent'}`}>
+  <div className="h-20 max-w-[1280px] mx-auto px-gutter flex items-center justify-between gap-space-md">
+    <div className="flex items-center gap-space-sm">
+      <Link href="/" className="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold flex items-center gap-1.5">
+        <span>Tech Ghuru</span>
+        <span className="w-1.5 h-1.5 rounded-full bg-primary-container inline-block"></span>
+      </Link>
+    </div>
+    <nav className={`hidden lg:flex items-center gap-space-lg ${open ? "flex absolute top-20 left-0 w-full bg-surface flex-col p-4 shadow-lg" : "hidden"}`}>
+      {links.map(([label, href]) => (
+        <Link key={href} href={href} className={`font-body-sm text-body-sm transition-colors ${path === href ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-primary'}`} onClick={() => setOpen(false)}>
+          {label}
+        </Link>
+      ))}
+    </nav>
+    <div className="flex items-center gap-space-md">
+      <Link href="/contact" className="hidden sm:inline-flex items-center justify-center bg-primary-container text-on-primary font-label-lg text-label-lg px-space-lg py-space-sm rounded-lg shadow-[0_4px_14px_rgba(249,115,22,0.35)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(249,115,22,0.45)] transition-all duration-200">
+        Get a Quote
+      </Link>
+      <button className="lg:hidden w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0" onClick={() => setOpen(!open)}>
+        <span className="material-symbols-outlined text-on-primary text-[18px]">{open ? 'close' : 'menu'}</span>
+      </button>
+    </div>
+  </div>
+</header><main>{children}</main><Footer/></>;
+}
+function Footer() { return <footer className="bg-surface-container-low pt-space-xl pb-space-lg border-t border-outline-variant/30">
+  <div className="max-w-[1280px] mx-auto px-gutter">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-space-xl md:gap-space-lg mb-space-xl">
+      <div className="md:col-span-4 flex flex-col space-y-space-md">
+        <Link href="/" className="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold flex items-center gap-1.5">
+          <span>Tech Ghuru</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary-container inline-block"></span>
+        </Link>
+        <p className="font-body-sm text-body-sm text-on-surface-variant max-w-sm">
+          We make digital feel a little more human. Got something in mind? Let's make it real.
+        </p>
+        <div className="flex items-center gap-space-sm pt-space-xs">
+          <a href="#" aria-label="Instagram" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface hover:border-primary hover:text-primary transition-colors"><Instagram size={18}/></a>
+          <a href="#" aria-label="LinkedIn" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface hover:border-primary hover:text-primary transition-colors"><Linkedin size={18}/></a>
+          <a href="#" aria-label="Dribbble" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface hover:border-primary hover:text-primary transition-colors"><Dribbble size={18}/></a>
+        </div>
+      </div>
+      <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-space-lg">
+        <div className="flex flex-col space-y-space-md">
+          <h4 className="font-label-md text-label-md uppercase tracking-wider text-secondary font-semibold">Explore</h4>
+          <nav className="flex flex-col space-y-space-sm">
+            {[["Home","/"],["About Us","/about"],["Services","/services"],["Portfolio","/portfolio"],["Blog","/blog"],["Careers","/careers"]].map(([t,h])=><Link key={t} href={h} className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors">{t}</Link>)}
+          </nav>
+        </div>
+        <div className="flex flex-col space-y-space-md">
+          <h4 className="font-label-md text-label-md uppercase tracking-wider text-secondary font-semibold">Let's Connect</h4>
+          <nav className="flex flex-col space-y-space-sm">
+            <Link href="/contact" className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors">Contact</Link>
+            <Link href="/quote" className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors">Request a quote</Link>
+            <Link href="/consolation" className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors">Book a consultation</Link>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div className="pt-space-md border-t border-outline-variant/50 flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-body-sm text-on-surface-variant">
+      <span>Â© 2026 Tech Ghuru. Built for what's next.</span>
+      <span>Colombo, Sri Lanka</span>
+    </div>
+  </div>
+</footer>; }
