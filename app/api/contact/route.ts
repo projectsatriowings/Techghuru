@@ -13,19 +13,28 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Create the transporter using the provided credentials
+    const smtpUser = process.env.SMTP_USER || "info@techghuru.com";
+    const smtpPass = process.env.SMTP_PASS;
+    const adminEmail = process.env.ADMIN_EMAIL || smtpUser;
+
+    if (!smtpPass) {
+      console.error("Missing SMTP_PASS environment variable");
+      return NextResponse.json({ error: "Email service is not configured" }, { status: 500 });
+    }
+
+    // Create the transporter using environment variables
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "info@techghuru.com",
-        pass: "ddtv-xfsp-x1ek-jxqe",
+        user: smtpUser,
+        pass: smtpPass,
       },
     });
 
     // Send Email to Info (Admin)
     await transporter.sendMail({
-      from: '"Tech Ghuru Contact Portal" <info@techghuru.com>',
-      to: "info@techghuru.com",
+      from: `"Tech Ghuru Contact Portal" <${smtpUser}>`,
+      to: adminEmail,
       subject: `New Technical Consultation Inquiry: ${fullName}`,
       html: `
         <div style="font-family: sans-serif; color: #1a1a1a;">

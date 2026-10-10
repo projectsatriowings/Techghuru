@@ -21,18 +21,27 @@ export async function POST(req: NextRequest) {
 
     const resumeBuffer = Buffer.from(await resumeFile.arrayBuffer());
     
-    // Create the transporter using the provided credentials
+    const smtpUser = process.env.SMTP_USER || "info@techghuru.com";
+    const smtpPass = process.env.SMTP_PASS;
+    const adminEmail = process.env.ADMIN_EMAIL || smtpUser;
+
+    if (!smtpPass) {
+      console.error("Missing SMTP_PASS environment variable");
+      return NextResponse.json({ error: "Email service is not configured" }, { status: 500 });
+    }
+
+    // Create the transporter using environment variables
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "info@techghuru.com",
-        pass: "ddtv-xfsp-x1ek-jxqe",
+        user: smtpUser,
+        pass: smtpPass,
       },
     });
 
     // 1. Send Email to the Applicant
     await transporter.sendMail({
-      from: '"Tech Ghuru Careers" <info@techghuru.com>',
+      from: `"Tech Ghuru Careers" <${smtpUser}>`,
       to: email,
       subject: `Application Received: ${jobTitle} at Tech Ghuru`,
       html: `
@@ -59,8 +68,8 @@ export async function POST(req: NextRequest) {
 
     // 2. Send Email to Info (Admin)
     await transporter.sendMail({
-      from: '"Tech Ghuru Careers Portal" <info@techghuru.com>',
-      to: "info@techghuru.com",
+      from: `"Tech Ghuru Careers Portal" <${smtpUser}>`,
+      to: adminEmail,
       subject: `New Application: ${fullName} for ${jobTitle}`,
       html: `
         <div style="font-family: sans-serif; color: #1a1a1a;">
