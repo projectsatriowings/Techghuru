@@ -3518,17 +3518,17 @@ export function HomePage() {
               <div className="flex items-center gap-14 shrink-0 animate-[marquee_28s_linear_infinite] whitespace-nowrap min-w-full justify-around">
                 {[
                   "blessence.png","brand03.png","brand1.png","dhara.jpeg","divine.jpeg",
-                  "jaighurudevalogo.png","jaighurudevalogo.webp","joysontrust.png","mcars.png","meera filngs.png",
+                  "jaighurudevalogo.png","joysontrust.png","mcars.png","meera filngs.png",
                   "miniso poster logo.png","mithra.jpeg","mk.png","newbrand3.png","NEWS GHURU LOGO PNG.png",
                   "PRS LOGO.png","sai.jpeg","school.png","sissers.png","sivajisons.png",
                   "uelogo.png","vrtech.png",
                   "blessence.png","brand03.png","brand1.png","dhara.jpeg","divine.jpeg",
-                  "jaighurudevalogo.png","jaighurudevalogo.webp","joysontrust.png","mcars.png","meera filngs.png",
+                  "jaighurudevalogo.png","joysontrust.png","mcars.png","meera filngs.png",
                   "miniso poster logo.png","mithra.jpeg","mk.png","newbrand3.png","NEWS GHURU LOGO PNG.png",
                   "PRS LOGO.png","sai.jpeg","school.png","sissers.png","sivajisons.png",
                   "uelogo.png","vrtech.png"
                 ].map((brand, i) => (
-                  <div key={i} className="flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity h-12 shrink-0 grayscale hover:grayscale-0">
+                  <div key={i} className="flex items-center justify-center transition-opacity h-16 md:h-20 shrink-0">
                     <img src={`/brands/${brand}`} alt="Partner Brand" className="h-full w-auto object-contain" />
                   </div>
                 ))}
