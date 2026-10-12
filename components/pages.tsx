@@ -196,30 +196,30 @@ const articles = [
   ],
   [
     "Content Writing",
-    "How to write compelling copy that converts and engages.",
-    "4 min read",
+    "Will AI Replace Writers? What Creators Should Know.",
+    "8 min read",
     "content-writing",
     "/blog-content-writing.jpg",
   ],
   [
     "Digital Marketing",
-    "Strategies to boost your brand's digital presence in 2024.",
-    "6 min read",
-    "digital-marketing",
+    "The Art and Science of Influencer Marketing.",
+    "7 min read",
+    "influencer-marketing",
     "/blog-influencer-marketing.jpg",
   ],
   [
     "Product Photoshoot",
     "Innovative and creative ideas for capturing product images.",
-    "5 min read",
+    "6 min read",
     "product-photoshoot",
     "/blog-product-photoshoot.jpg",
   ],
   [
     "Branding",
-    "Building a memorable identity for your enterprise.",
+    "Advanced Link-Building Strategies To Elevate Your Online Presence.",
     "7 min read",
-    "branding",
+    "link-building-strategies",
     "/blog-link-building-strategies.jpg",
   ],
 ];
@@ -401,10 +401,10 @@ function CTA() {
       {" "}
       <div className="max-w-[1280px] mx-auto px-gutter">
         {" "}
-        <div className="bg-surface-container-lowest rounded-3xl p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 shadow-2xl border border-outline-variant/30 relative overflow-hidden">
+        <div className="bg-surface-container-lowest rounded-3xl p-6 sm:p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 shadow-2xl border border-outline-variant/30 relative overflow-hidden">
           {" "}
           <div className="absolute inset-0 bg-gradient-to-tr from-primary-container/20 to-transparent pointer-events-none"></div>{" "}
-          <div className="w-full md:w-1/2 space-y-6 relative z-10">
+          <div className="w-full md:w-1/2 space-y-4 sm:space-y-6 relative z-10 text-center md:text-left">
             {" "}
             <Eyebrow>YOUR NEXT CHAPTER</Eyebrow>{" "}
             <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight leading-tight">
@@ -412,12 +412,12 @@ function CTA() {
               <br />
               <em className="text-primary not-italic">in the making?</em>
             </h2>{" "}
-            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-[400px]">
+            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-[400px] mx-auto md:mx-0">
               Tell us what you're dreaming up. We'll bring the right people and
               ideas to make it happen.
             </p>{" "}
           </div>{" "}
-          <div className="w-full md:w-1/2 relative z-10 flex flex-col items-center md:items-end space-y-8">
+          <div className="w-full md:w-1/2 relative z-10 flex flex-col items-center md:items-end space-y-6 sm:space-y-8">
             {" "}
             <div className="relative w-full max-w-[400px] aspect-video rounded-2xl overflow-hidden shadow-xl border border-outline-variant/30">
               {" "}
@@ -427,7 +427,7 @@ function CTA() {
                 className="w-full h-full object-cover"
               />{" "}
             </div>{" "}
-            <Button href="/contact" className="bg-[#eb5d1e] text-white hover:bg-[#d64d14] rounded-[12px] px-8 py-3.5 flex items-center gap-2 inline-flex border-none font-bold shadow-[0_4px_15px_rgba(235,93,30,0.3)] group w-max">
+            <Button href="/contact" className="w-full sm:w-auto inline-flex justify-center text-center">
               Contact Us
             </Button>
           </div>
@@ -2406,17 +2406,41 @@ const blogContent: Record<string, ReactNode> = {
     </>
   ),
 };
-const blogInfo: Record<string, string[]> = Object.fromEntries(
-  articles.map((a) => [a[3], [a[0], a[1], a[2]]]),
-);
+blogContent["influencer-marketing"] = blogContent["digital-marketing"];
+blogContent["branding"] = blogContent["link-building-strategies"];
+
+const blogInfo: Record<string, string[]> = {
+  ...Object.fromEntries(articles.map((a) => [a[3], [a[0], a[1], a[2]]])),
+  "digital-marketing": [
+    "Digital Marketing",
+    "The Art and Science of Influencer Marketing.",
+    "7 min read",
+  ],
+  "branding": [
+    "Branding",
+    "Advanced Link-Building Strategies To Elevate Your Online Presence.",
+    "7 min read",
+  ],
+};
+
 export function BlogPost({ slug }: { slug: string }) {
-  const [category, title, desc] = blogInfo[slug] || [
+  const resolvedSlug =
+    slug === "digital-marketing"
+      ? "influencer-marketing"
+      : slug === "branding"
+      ? "link-building-strategies"
+      : slug;
+  const [category, title, desc] = blogInfo[slug] || blogInfo[resolvedSlug] || [
     "Blog",
     "Article Not Found",
     "",
   ];
-  const content = blogContent[slug] || <p>Full article content coming soon.</p>;
-  const otherArticles = articles.filter((a) => a[3] !== slug).slice(0, 5);
+  const content =
+    blogContent[slug] ||
+    blogContent[resolvedSlug] || (
+      <p>Full article content coming soon.</p>
+    );
+  const otherArticles = articles.filter((a) => a[3] !== slug && a[3] !== resolvedSlug).slice(0, 5);
   return (
     <>
       {" "}
@@ -2502,7 +2526,20 @@ export function BlogPost({ slug }: { slug: string }) {
       </section>{" "}
       <style
         dangerouslySetInnerHTML={{
-          __html: ` .blog-body { font-size: 1.1875rem; line-height: 1.85; color: var(--on-surface-variant); } .blog-body > p:first-of-type { font-size: 1.5rem; line-height: 1.6; color: var(--on-surface); font-weight: 300; margin-bottom: 2.5rem; } .blog-body > p:first-of-type::first-letter { font-family: Outfit, sans-serif; float: left; font-size: 5rem; line-height: 0.8; margin-right: 0.75rem; font-weight: 700; color: var(--primary); } .blog-body h3 { font-family: Outfit, sans-serif; font-size: 2rem; margin: 3.5rem 0 1.25rem 0; color: var(--on-surface); font-weight: 700; letter-spacing: -0.02em; } .blog-body p { margin-bottom: 1.75rem; } .blog-body ul { margin-bottom: 2rem; padding-left: 1.5rem; border-left: 2px solid var(--primary-container); } .blog-body li { margin-bottom: 0.75rem; padding-left: 0.5rem; } .blog-body strong { color: var(--on-surface); font-weight: 700; } .blog-body blockquote { font-family: Outfit, sans-serif; font-size: 1.5rem; font-style: italic; color: var(--on-surface); border-left: 4px solid var(--primary); margin: 3rem 0; padding: 1rem 0 1rem 2rem; background: var(--surface-container-lowest); border-radius: 0 1rem 1rem 0; } `,
+          __html: `
+            .blog-body { font-size: 1rem; line-height: 1.75; color: var(--on-surface-variant); }
+            @media (min-width: 640px) { .blog-body { font-size: 1.0625rem; line-height: 1.8; } }
+            @media (min-width: 1024px) { .blog-body { font-size: 1.125rem; } }
+            .blog-body p { margin-bottom: 1.5rem; }
+            .blog-body > p:first-of-type { font-size: 1.0625rem; line-height: 1.75; color: var(--on-surface); font-weight: 400; margin-bottom: 1.75rem; }
+            @media (min-width: 1024px) { .blog-body > p:first-of-type { font-size: 1.125rem; } }
+            .blog-body h3 { font-family: Outfit, sans-serif; font-size: 1.375rem; margin: 2.25rem 0 1rem 0; color: var(--on-surface); font-weight: 700; letter-spacing: -0.01em; }
+            @media (min-width: 768px) { .blog-body h3 { font-size: 1.625rem; margin: 2.75rem 0 1.25rem 0; } }
+            .blog-body ul { margin-bottom: 1.75rem; padding-left: 1.25rem; border-left: 2px solid var(--primary-container); }
+            .blog-body li { margin-bottom: 0.625rem; padding-left: 0.5rem; }
+            .blog-body strong { color: var(--on-surface); font-weight: 700; }
+            .blog-body blockquote { font-family: Outfit, sans-serif; font-size: 1.125rem; font-style: italic; color: var(--on-surface); border-left: 4px solid var(--primary); margin: 2rem 0; padding: 0.875rem 0 0.875rem 1.5rem; background: var(--surface-container-lowest); border-radius: 0 0.75rem 0.75rem 0; }
+          `,
         }}
       />{" "}
       <section className="py-16 lg:py-12 relative z-10 bg-surface">
@@ -2587,16 +2624,16 @@ export function BlogPost({ slug }: { slug: string }) {
 }
 function AboutPage() {
   return (
-    <div className="bg-surface min-h-screen text-on-surface">
+    <div className="bg-surface min-h-screen text-on-surface overflow-x-clip">
       {" "}
       {/* 1. Hero Section */}{" "}
       <section className="pt-16 pb-8 lg:pt-12 lg:pb-12 overflow-hidden relative">
         {" "}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-container/10 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3"></div>{" "}
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary-container/10 rounded-full blur-3xl -z-10 -translate-x-1/3 translate-y-1/3"></div>{" "}
+        <div className="absolute top-0 right-0 w-[400px] sm:w-[800px] h-[400px] sm:h-[800px] bg-primary-container/10 rounded-full blur-3xl -z-10 translate-x-1/4 -translate-y-1/4 pointer-events-none"></div>{" "}
+        <div className="absolute bottom-0 left-0 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-secondary-container/10 rounded-full blur-3xl -z-10 -translate-x-1/4 translate-y-1/4 pointer-events-none"></div>{" "}
         <div className="max-w-[1280px] mx-auto px-gutter relative z-10">
           {" "}
-          <div className="max-w-3xl mx-auto text-center space-y-8">
+          <div className="max-w-3xl mx-auto text-center space-y-6 sm:space-y-8">
             {" "}
             <Reveal>
               {" "}
@@ -2626,24 +2663,24 @@ function AboutPage() {
             </Reveal>{" "}
             <Reveal delay={300}>
               {" "}
-              <div className="pt-8 flex items-center justify-center gap-12">
+              <div className="pt-6 sm:pt-8 flex items-center justify-center gap-6 sm:gap-12 flex-wrap sm:flex-nowrap">
                 {" "}
                 <div className="flex flex-col">
                   {" "}
                   <span className="text-display-lg font-bold text-primary">
                     6+
                   </span>{" "}
-                  <span className="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mt-2">
+                  <span className="text-xs sm:text-sm font-semibold text-on-surface-variant uppercase tracking-wider mt-1 sm:mt-2">
                     Years Experience
                   </span>{" "}
                 </div>{" "}
-                <div className="w-px h-16 bg-outline-variant/50"></div>{" "}
+                <div className="w-px h-12 sm:h-16 bg-outline-variant/50 hidden sm:block"></div>{" "}
                 <div className="flex flex-col">
                   {" "}
                   <span className="text-display-lg font-bold text-primary">
                     200+
                   </span>{" "}
-                  <span className="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mt-2">
+                  <span className="text-xs sm:text-sm font-semibold text-on-surface-variant uppercase tracking-wider mt-1 sm:mt-2">
                     Projects Delivered
                   </span>{" "}
                 </div>{" "}
@@ -2653,11 +2690,11 @@ function AboutPage() {
         </div>{" "}
       </section>{" "}
       {/* 2. Philosophy & Upgrade Section */}{" "}
-      <section className="pt-12 pb-16 relative bg-surface">
+      <section className="pt-8 sm:pt-12 pb-16 relative bg-surface">
         {" "}
         <div className="max-w-[1280px] mx-auto px-gutter">
           {" "}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {" "}
             <Reveal delay={200}>
               {" "}
@@ -2673,8 +2710,8 @@ function AboutPage() {
                   />{" "}
                 </div>{" "}
                 {/* Let's talk about it button */}
-                <div className="mt-8">
-                  <Button href="/contact" className="bg-[#eb5d1e] text-white hover:bg-[#d64d14] rounded-[12px] px-8 py-3.5 flex items-center gap-2 inline-flex border-none font-bold shadow-[0_4px_15px_rgba(235,93,30,0.3)] group w-max">
+                <div className="mt-8 w-full sm:w-auto flex justify-center">
+                  <Button href="/contact" className="w-full sm:w-auto inline-flex justify-center text-center">
                     Contact Us
                   </Button>
                 </div>
@@ -2682,7 +2719,7 @@ function AboutPage() {
             </Reveal>{" "}
             <Reveal delay={200}>
               {" "}
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
                 {" "}
                 <h2 className="font-headline-lg text-display-lg font-bold text-on-surface tracking-tight leading-[1.15]">
                   {" "}
@@ -2692,16 +2729,16 @@ function AboutPage() {
                     IT Solutions.
                   </span>{" "}
                 </h2>{" "}
-                <p className="font-body-lg text-on-surface-variant leading-relaxed max-w-lg">
+                <p className="font-body-lg text-on-surface-variant leading-relaxed max-w-lg mx-auto lg:mx-0">
                   {" "}
                   Upgrade your IT Solutions by collaborating with a
                   highly-skilled, experienced, hand-picked team of experts. We
                   ensure your project is in your hands on time at an affordable
                   price.{" "}
                 </p>{" "}
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2.5 sm:gap-3 justify-center lg:justify-start">
                   {" "}
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30 text-on-surface font-semibold text-sm shadow-sm hover:-translate-y-0.5 transition-transform">
+                  <div className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30 text-on-surface font-semibold text-xs sm:text-sm shadow-sm hover:-translate-y-0.5 transition-transform">
                     {" "}
                     <img
                       src="https://cdn.simpleicons.org/claude/D97757"
@@ -2711,7 +2748,7 @@ function AboutPage() {
                     />{" "}
                     Claude{" "}
                   </div>{" "}
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30 text-on-surface font-semibold text-sm shadow-sm hover:-translate-y-0.5 transition-transform">
+                  <div className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30 text-on-surface font-semibold text-xs sm:text-sm shadow-sm hover:-translate-y-0.5 transition-transform">
                     {" "}
                     <img
                       src="/antigravity-logo.png"
@@ -2721,7 +2758,7 @@ function AboutPage() {
                     />{" "}
                     Antigravity{" "}
                   </div>{" "}
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30 text-on-surface font-semibold text-sm shadow-sm hover:-translate-y-0.5 transition-transform">
+                  <div className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30 text-on-surface font-semibold text-xs sm:text-sm shadow-sm hover:-translate-y-0.5 transition-transform">
                     {" "}
                     <img
                       src="https://cdn.simpleicons.org/googleads"
@@ -2732,11 +2769,15 @@ function AboutPage() {
                     Google Ads{" "}
                   </div>{" "}
                 </div>{" "}
-                <div className="pt-4">
+                <div className="pt-2 sm:pt-4 w-full sm:w-auto flex justify-center lg:justify-start">
                   {" "}
-                  <Button href="/contact" className="bg-[#eb5d1e] text-white hover:bg-[#d64d14] rounded-[12px] px-8 py-3.5 flex items-center gap-2 inline-flex border-none font-bold shadow-[0_4px_15px_rgba(235,93,30,0.3)] group w-max">
-                    Call to ask any question: +91 88259 48859
-                  </Button>{" "}
+                  <a
+                    href="tel:+918825948859"
+                    className="inline-flex items-center justify-center gap-2 font-label-lg font-bold text-xs sm:text-base rounded-xl px-5 sm:px-8 py-3.5 bg-[#eb5d1e] text-white hover:bg-[#d64d14] shadow-[0_4px_15px_rgba(235,93,30,0.3)] transition-all active:scale-95 w-full sm:w-auto text-center"
+                  >
+                    <Phone size={16} className="shrink-0" />
+                    <span>Call to ask any question: +91 88259 48859</span>
+                  </a>{" "}
                 </div>{" "}
               </div>{" "}
             </Reveal>{" "}
@@ -3030,8 +3071,8 @@ export function RoutePage({ segments = [] }: { segments: string[] }) {
   const slug = segments.at(-1);
   if (serviceInfo[slug!] && segments[0] === "services")
     return <ServicePage slug={slug!} />;
-  if (blogInfo[slug!] && segments[0] === "blog")
-    return <BlogPost slug={slug!} />;
+  if (segments[0] === "blog" && slug && slug !== "blog")
+    return <BlogPost slug={slug} />;
   if (key === "about") return <AboutPage />;
   if (key === "services")
     return (
@@ -3091,10 +3132,10 @@ export function RoutePage({ segments = [] }: { segments: string[] }) {
           {" "}
           <div className="max-w-[1280px] mx-auto px-gutter">
             {" "}
-            <div className="bg-[#4a2411] text-white rounded-3xl p-8 md:p-12 lg:p-16 flex flex-col md:flex-row items-center justify-between gap-12 shadow-2xl relative overflow-hidden">
+            <div className="bg-[#4a2411] text-white rounded-3xl p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 shadow-2xl relative overflow-hidden">
               {" "}
-              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/20 blur-3xl rounded-full -z-0"></div>{" "}
-              <div className="w-full md:w-2/3 space-y-6 relative z-10">
+              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/20 blur-3xl rounded-full -z-0 pointer-events-none"></div>{" "}
+              <div className="w-full lg:w-7/12 space-y-4 sm:space-y-6 relative z-10 text-center lg:text-left">
                 {" "}
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white/90 text-label-sm font-bold tracking-widest uppercase border border-white/20">
                   {" "}
@@ -3103,7 +3144,7 @@ export function RoutePage({ segments = [] }: { segments: string[] }) {
                   </span>{" "}
                   READY FOR ELEVATION{" "}
                 </div>{" "}
-                <h2 className="font-headline-lg text-display-lg font-bold tracking-tight leading-[1.1] text-balance">
+                <h2 className="font-headline-lg text-display-lg font-bold tracking-tight leading-[1.15] text-balance">
                   {" "}
                   Have a Custom Project in Mind?
                   <br />
@@ -3111,25 +3152,25 @@ export function RoutePage({ segments = [] }: { segments: string[] }) {
                   <br />
                   roadmap together.{" "}
                 </h2>{" "}
-                <p className="font-body-md text-body-lg text-white/80 max-w-xl">
+                <p className="font-body-md text-body-lg text-white/80 max-w-xl mx-auto lg:mx-0">
                   {" "}
                   From technical discovery through sprint-zero deployment, our
                   seasoned engineering and growth directors partner directly
                   with your internal leadership.{" "}
                 </p>{" "}
               </div>{" "}
-              <div className="w-full md:w-auto relative z-10 flex flex-col sm:flex-row items-center gap-4">
+              <div className="w-full lg:w-auto relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
                 {" "}
                 <Link
                   href="/contact"
-                  className="w-full sm:w-auto px-8 py-4 bg-primary hover:bg-primary/90 text-white rounded-xl font-label-lg font-bold transition-colors whitespace-nowrap text-center"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-primary hover:bg-primary/90 text-white rounded-xl font-label-lg font-bold transition-colors whitespace-nowrap text-center text-sm sm:text-base"
                 >
                   {" "}
                   Request Free Consultation{" "}
                 </Link>{" "}
                 <Link
                   href="/portfolio"
-                  className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-label-lg font-bold transition-colors whitespace-nowrap text-center"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-label-lg font-bold transition-colors whitespace-nowrap text-center text-sm sm:text-base"
                 >
                   {" "}
                   View Case Studies{" "}
@@ -3346,25 +3387,36 @@ export function RoutePage({ segments = [] }: { segments: string[] }) {
           desc="Enter your details to access your dashboard."
         />
         <section className="py-12 relative z-10">
-          <div className="max-w-[1280px] mx-auto px-gutter grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div className="contact-info">
-              <div>
-                <small>NEED HELP?</small>
-                <p>
-                  If you don't have an account, please contact our support team.
+          <div className="max-w-[1280px] mx-auto px-gutter grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+            <div className="space-y-4">
+              <div className="bg-[#fff0e6] border border-[#eb5d1e]/20 rounded-2xl p-6 sm:p-8">
+                <small className="text-[#eb5d1e] font-bold text-xs uppercase tracking-wider block mb-2">NEED HELP?</small>
+                <p className="text-[#555] text-sm sm:text-base leading-relaxed">
+                  If you don&apos;t have an account, please contact our support team.
                 </p>
               </div>
             </div>
-            <form className="form" action="#">
-              <div className="field">
-                <label>Email address</label>
-                <input type="email" placeholder="you@yourcompany.com" />
+            <form className="bg-white rounded-3xl border border-[#eaeaea] p-6 sm:p-8 md:p-10 shadow-sm space-y-5" action="#">
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#1a1a1a]">Email address</label>
+                <input
+                  type="email"
+                  placeholder="you@yourcompany.com"
+                  className="w-full px-4 py-3 bg-[#f8f6f0] border border-[#eaeaea] rounded-xl text-base text-[#1a1a1a] focus:outline-none focus:border-[#eb5d1e] transition-colors"
+                />
               </div>
-              <div className="field">
-                <label>Password</label>
-                <input type="password" placeholder="••••••••" />
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#1a1a1a]">Password</label>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  className="w-full px-4 py-3 bg-[#f8f6f0] border border-[#eaeaea] rounded-xl text-base text-[#1a1a1a] focus:outline-none focus:border-[#eb5d1e] transition-colors"
+                />
               </div>
-              <button className="button" type="button">
+              <button
+                className="w-full sm:w-auto px-8 py-3.5 bg-[#eb5d1e] text-white font-bold rounded-xl hover:bg-[#d64d14] flex items-center justify-center gap-2 text-sm shadow-md transition-colors"
+                type="button"
+              >
                 Log in
                 <ArrowUpRight size={16} />
               </button>
@@ -3438,37 +3490,35 @@ export function HomePage() {
                   architectures. We bridge ambitious corporate strategy with
                   robust, future-proof technical execution.{" "}
                 </p>{" "}
-                <div className="flex flex-wrap items-center gap-space-md pt-space-sm w-full sm:w-auto">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-space-md pt-space-sm w-full sm:w-auto relative z-20">
                   {" "}
-                  <a
-                    className="inline-flex items-center justify-center gap-space-xs bg-primary-container text-on-primary font-label-lg text-label-lg px-8 py-3.5 rounded-lg shadow-[0_10px_25px_-5px_rgba(249,115,22,0.4)] hover:-translate-y-1 hover:shadow-[0_16px_32px_-4px_rgba(249,115,22,0.5)] transition-all duration-300 group"
-                    data-path="services"
-                    href="#"
+                  <Link
+                    className="inline-flex items-center justify-center gap-space-xs bg-primary-container text-on-primary font-label-lg text-label-lg px-8 py-3.5 rounded-lg shadow-[0_10px_25px_-5px_rgba(249,115,22,0.4)] hover:-translate-y-1 hover:shadow-[0_16px_32px_-4px_rgba(249,115,22,0.5)] transition-all duration-300 group w-full sm:w-auto text-center cursor-pointer"
+                    href="/services"
                   >
                     {" "}
                     <span>Our Services</span>{" "}
                     <span className="material-symbols-outlined font-body-md text-body-md group-hover:translate-x-1 transition-transform">
                       arrow_forward
                     </span>{" "}
-                  </a>{" "}
-                  <a
-                    className="inline-flex items-center justify-center gap-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-on-surface font-label-lg text-label-lg px-8 py-3.5 rounded-lg shadow-sm hover:bg-surface-container-lowest hover:shadow-md transition-all duration-300"
-                    data-path="contact"
-                    href="#"
+                  </Link>{" "}
+                  <Link
+                    className="inline-flex items-center justify-center gap-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-on-surface font-label-lg text-label-lg px-8 py-3.5 rounded-lg shadow-sm hover:bg-surface-container-lowest hover:shadow-md transition-all duration-300 w-full sm:w-auto text-center cursor-pointer"
+                    href="/contact"
                   >
                     {" "}
                     <span className="material-symbols-outlined font-body-md text-body-md text-primary">
                       forum
                     </span>{" "}
                     <span>Contact Us</span>{" "}
-                  </a>{" "}
+                  </Link>{" "}
                 </div>{" "}
               </div>{" "}
-              <div className="lg:col-span-5 relative mt-8 lg:mt-0 flex justify-center">
+              <div className="lg:col-span-5 relative mt-8 lg:mt-0 flex justify-center max-w-full overflow-hidden">
                 <img
                   src="/Technology.svg"
                   alt="Tech Ghuru Cloud Architecture"
-                  className="w-full h-auto drop-shadow-2xl scale-110 lg:scale-125"
+                  className="w-full max-w-lg lg:max-w-none h-auto drop-shadow-2xl"
                 />
               </div>
             </div>
@@ -3635,7 +3685,7 @@ export function HomePage() {
                 <img
                   src="/webdev-animation.svg"
                   alt="Web Development"
-                  className="w-full h-[480px] object-cover drop-shadow-xl"
+                  className="w-full h-[260px] sm:h-[380px] lg:h-[480px] object-cover drop-shadow-xl"
                 />{" "}
               </div>{" "}
             </div>{" "}
@@ -3767,17 +3817,15 @@ export function HomePage() {
                 Read The Latest Articles from Our Blog Post{" "}
               </h2>{" "}
             </div>{" "}
-            <a
+            <Link
               className="inline-flex items-center gap-2 font-label-lg text-label-lg text-primary hover:text-on-primary-container transition-colors group self-start md:self-auto"
-              data-path="blog"
-              href="#"
+              href="/blog"
             >
-              {" "}
-              <span>View all blog posts</span>{" "}
+              <span>View all blog posts</span>
               <span className="material-symbols-outlined text-body-lg group-hover:translate-x-1 transition-transform">
                 arrow_right_alt
-              </span>{" "}
-            </a>{" "}
+              </span>
+            </Link>{" "}
           </div>{" "}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {" "}
@@ -3866,23 +3914,18 @@ export function HomePage() {
                 </p>{" "}
               </div>{" "}
               <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-end">
-                {" "}
-                <a
-                  className="inline-flex items-center justify-center bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-center"
-                  data-path="get-a-quote"
-                  href="#"
+                <Link
+                  className="w-full sm:w-auto lg:w-full inline-flex items-center justify-center bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-center cursor-pointer"
+                  href="/contact"
                 >
-                  {" "}
-                  Schedule Discovery Call{" "}
-                </a>{" "}
-                <a
-                  className="inline-flex items-center justify-center bg-surface-variant/15 hover:bg-surface-variant/25 text-inverse-on-surface font-label-lg text-label-lg px-8 py-4 rounded-xl transition-colors text-center"
-                  data-path="contact"
-                  href="#"
+                  Schedule Discovery Call
+                </Link>
+                <Link
+                  className="w-full sm:w-auto lg:w-full inline-flex items-center justify-center bg-surface-variant/15 hover:bg-surface-variant/25 text-inverse-on-surface font-label-lg text-label-lg px-8 py-4 rounded-xl transition-colors text-center cursor-pointer"
+                  href="/contact"
                 >
-                  {" "}
-                  Contact Engineering Team{" "}
-                </a>{" "}
+                  Contact Engineering Team
+                </Link>
               </div>{" "}
             </div>{" "}
           </div>{" "}
@@ -4588,6 +4631,21 @@ const jobs = [
 export function CareersPage() {
   const [selectedJob, setSelectedJob] = React.useState<any>(null);
   const [activeFilter, setActiveFilter] = React.useState("All Roles");
+
+  React.useEffect(() => {
+    if (!selectedJob) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedJob(null);
+    };
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedJob]);
+
   const filters = [
     "All Roles",
     "Engineering",
@@ -4683,8 +4741,8 @@ export function CareersPage() {
           <div className="text-[#eb5d1e] font-label-sm text-sm font-bold uppercase tracking-widest mb-3">OUR PIPELINE</div>
           <h2 className="font-headline-lg text-4xl font-bold text-[#1a1a1a] mb-10">Our Hiring Process</h2>
           
-          <div className="flex flex-col md:flex-row justify-between relative">
-            <div className="hidden md:block absolute top-8 left-[10%] right-[10%] h-[2px] bg-[#eb5d1e]/20 z-0"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 relative">
+            <div className="hidden lg:block absolute top-8 left-[10%] right-[10%] h-[2px] bg-[#eb5d1e]/20 z-0"></div>
             {[
               { step: "01", icon: "send", title: "Apply", desc: "Submit your application or resume through our careers portal." },
               { step: "02", icon: "description", title: "Review", desc: "Our team reviews your profile and experience carefully." },
@@ -4692,7 +4750,7 @@ export function CareersPage() {
               { step: "04", icon: "handshake", title: "Selection", desc: "Successful candidates receive an offer to join our team." },
               { step: "05", icon: "rocket", title: "Welcome Aboard", desc: "Kickstart your journey with Tech Ghuru and grow with us!" },
             ].map((step, i) => (
-              <div key={i} className="flex flex-col items-center flex-1 relative z-10 mb-8 md:mb-0 px-4">
+              <div key={i} className="flex flex-col items-center relative z-10 px-2">
                 <div className="w-16 h-16 bg-white border-2 border-[#eb5d1e] rounded-full flex items-center justify-center font-bold text-[#eb5d1e] mb-6 shadow-sm">
                   {step.step}
                 </div>
@@ -4837,23 +4895,31 @@ export function CareersPage() {
       </section>{" "}
       {/* Application Form Modal */}
       {selectedJob && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1a1a1a]/80 backdrop-blur-sm">
-          <div className="bg-white border border-dashed border-[#d0d0d0] w-full max-w-[800px] max-h-[90vh] overflow-y-auto shadow-2xl relative my-8 animate-in fade-in zoom-in-95 duration-200">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Apply for ${selectedJob.title}`}
+          onClick={() => setSelectedJob(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#1a1a1a]/80 backdrop-blur-sm overflow-y-auto"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white border border-dashed border-[#d0d0d0] w-full max-w-[800px] max-h-[90vh] overflow-y-auto shadow-2xl relative my-auto rounded-2xl animate-in fade-in zoom-in-95 duration-200"
+          >
             <div className="absolute -top-1.5 -left-1.5 text-[#d0d0d0] text-xs">+</div>
             <div className="absolute -top-1.5 -right-1.5 text-[#d0d0d0] text-xs">+</div>
             <div className="absolute -bottom-1.5 -left-1.5 text-[#d0d0d0] text-xs">+</div>
             <div className="absolute -bottom-1.5 -right-1.5 text-[#d0d0d0] text-xs">+</div>
             
             <button
-              onClick={() => {
-                setSelectedJob(null);
-              }}
-              className="absolute top-4 right-4 w-10 h-10 bg-white border border-[#eaeaea] flex items-center justify-center text-[#1a1a1a] hover:bg-[#f8f6f0] hover:text-[#eb5d1e] transition-colors z-10"
+              onClick={() => setSelectedJob(null)}
+              aria-label="Close dialog"
+              className="absolute top-4 right-4 w-10 h-10 bg-white border border-[#eaeaea] rounded-full flex items-center justify-center text-[#1a1a1a] hover:bg-[#f8f6f0] hover:text-[#eb5d1e] transition-colors z-10"
             >
               <span className="material-symbols-outlined font-headline-sm text-headline-sm">close</span>
             </button>
             
-            <div className="p-6 md:p-8">
+            <div className="p-5 sm:p-6 md:p-8">
               <ApplicationFormContent job={selectedJob} onClose={() => setSelectedJob(null)} />
             </div>
           </div>
@@ -5043,18 +5109,18 @@ function ApplicationFormContent({ job, onClose }: { job: any, onClose: () => voi
             )}
           </div>
         </div>
-        <div className="pt-6 mt-6 border-t border-dashed border-[#d0d0d0] flex justify-end gap-4">
+        <div className="pt-6 mt-6 border-t border-dashed border-[#d0d0d0] flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-4">
           <button
             type="button"
             onClick={onClose}
-            className="px-8 py-4 bg-white text-[#1a1a1a] font-bold font-body-sm text-body-sm border border-[#eaeaea] hover:border-[#d0d0d0] hover:bg-[#f8f6f0] transition-colors w-full md:w-auto"
+            className="px-8 py-3.5 sm:py-4 bg-white text-[#1a1a1a] font-bold font-body-sm text-body-sm border border-[#eaeaea] hover:border-[#d0d0d0] hover:bg-[#f8f6f0] transition-colors w-full sm:w-auto"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-10 py-4 bg-[#eb5d1e] text-white font-bold font-body-sm text-body-sm hover:bg-[#d64d14] disabled:opacity-70 disabled:cursor-not-allowed transition-colors w-full md:w-auto flex items-center justify-center gap-2"
+            className="px-8 sm:px-10 py-3.5 sm:py-4 bg-[#eb5d1e] text-white font-bold font-body-sm text-body-sm hover:bg-[#d64d14] disabled:opacity-70 disabled:cursor-not-allowed transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
           >
             {isSubmitting ? "Submitting..." : "Submit Application"}
             {!isSubmitting && (
